@@ -4,7 +4,8 @@ import Todo from './todo.react'
 export default class Todos extends Component {
   render() {
     const {
-      todos
+      todos,
+      removeTodo
     } = this.props
 
     const render_todo = (
@@ -12,8 +13,10 @@ export default class Todos extends Component {
         return (
           <Todo
             key={ idx }
+            idx={ idx }
             text={ d.text }
-            completed={ d.completed } />
+            completed={ d.completed }
+            removeTodo={ removeTodo }/>
         )
       })
     )
@@ -26,3 +29,5 @@ export default class Todos extends Component {
     )
   }
 }
+
+Todos.displayName = 'Todos Component'
