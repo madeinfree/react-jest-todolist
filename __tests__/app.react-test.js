@@ -134,22 +134,3 @@ describe('<App />', () => {
     expect(wrapper.find(Todos).prop('todos')[3].completed).toBeFalsy()
   })
 })
-
-describe('<Todos />', () => {
-  it('can render and set Todos props then get children', () => {
-    const wrapper = mount(<Todos todos={ custom_todos } />)
-    expect(wrapper.find(Todo).length).toBe(2)
-  })
-
-  it('can call removeTodo method', () => {
-    const mock_removeTodo = jest.fn().mockImplementation((idx) => {
-      const todos = custom_todos.filter((todo, index) => {
-        return idx !== index
-      })
-      wrapper.setProps({ todos: todos })
-    })
-    const wrapper = mount(<Todos todos={ custom_todos } removeTodo={ mock_removeTodo } />)
-    wrapper.find(Todo).at(0).find('button').simulate('click')
-    expect(wrapper.find(Todo).length).toBe(1)
-  })
-})
