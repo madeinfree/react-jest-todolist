@@ -1,5 +1,5 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
+import { mount, shallow, render } from 'enzyme'
 
 import App from '../src/app.react'
 import Todos from '../src/todos.react'
@@ -120,9 +120,15 @@ describe('<App />', () => {
     expect(wrapper.find(Todos).prop('todos')[2].completed).toBeTruthy()
   })
 
+  it('get todo text in div', () => {
+    const wrapper = mount(<App />)
+    expect(wrapper.childAt(1).find(Todo).children().at(0).text()).toBe('Do eat')
+    expect(wrapper.childAt(1).find(Todo).children().at(1).text()).toBe('Is not completed')
+  })
+
   it('can call App addTodo method', () => {
     const wrapper = mount(<App />)
-    wrapper.childAt(2).find('button').simulate('click', { text: 'foobar', completed: false })
+    wrapper.childAt(2).simulate('click', { text: 'foobar', completed: false })
     expect(wrapper.state('todos').length).toBe(4)
     expect(wrapper.find(Todos).prop('todos')[3].text).toBe('foobar')
     expect(wrapper.find(Todos).prop('todos')[3].completed).toBeFalsy()
@@ -131,7 +137,19 @@ describe('<App />', () => {
 
 describe('<Todos />', () => {
   it('can render and set Todos props then get children', () => {
-    const wrapper = mount(<Todos todos={ custom_todos }/>)
+    const wrapper = mount(<Todos todos={ custom_todos } />)
     expect(wrapper.find(Todo).length).toBe(2)
+  })
+
+  it('can call removeTodo method', () => {
+    const mock_removeTodo = jest.fn().mockImplementation((idx) => {
+      const todos = custom_todos.filter((todo, index) => {
+        return idx !== index
+      })
+      wrapper.setProps({ todos: todos })
+    })
+    const wrapper = mount(<Todos todos={ custom_todos } removeTodo={ mock_removeTodo } />)
+    wrapper.find(Todo).at(0).find('button').simulate('click')
+    expect(wrapper.find(Todo).length).toBe(1)
   })
 })

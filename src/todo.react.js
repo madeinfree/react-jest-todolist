@@ -1,6 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 export default class Todo extends Component {
+
+  static propTypes = {
+    removeTodo: PropTypes.func
+  }
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     const {
       idx,
@@ -11,9 +20,9 @@ export default class Todo extends Component {
 
     return (
       <div>
-        <div>`Do ${text}`</div>
-        <div>`Is ${completed}`</div>
-        <button onClick={ (idx) => removeTodo(idx) }>Remove Todo</button>
+        <div>Do { text }</div>
+        <div>Is { completed ? 'completed' : 'not completed' }</div>
+        <button onClick={ () => removeTodo(idx) }>Remove Todo</button>
       </div>
     )
   }

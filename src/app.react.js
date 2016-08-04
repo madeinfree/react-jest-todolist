@@ -34,7 +34,7 @@ export default class App extends Component {
     })
   }
 
-  removeTodo(idx) {
+  removeTodo({idx}) {
     const todos = this.state.todos.filter((todo, index) => {
       return index !== idx
     })
@@ -49,7 +49,7 @@ export default class App extends Component {
         <h1>React Todo List Test By Jest</h1>
         <Todos
           todos={ this.state.todos }
-          removeTodo={ this.removeTodo }/>
+          removeTodo={ this.removeTodo } />
         <button onClick={ ({text, completed}) => this.addTodos({text, completed}) }>Add Todo</button>
       </div>
     )
